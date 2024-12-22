@@ -1,5 +1,5 @@
 import "./App.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -7,17 +7,32 @@ function App() {
   type Todo = {
     inputValue: string;
     id: number;
-    checed: boolean;
+    checked: boolean;
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newTodo: Todo = {
+      inputValue: inputValue,
+      id: todos.length,
+      checked: false,
+    };
+    setTodos([newTodo, ...todos]);
+    setInputValue("");
   };
 
   return (
     <div className="App">
       <div>
         <h2>Todoリスト</h2>
-        <form onSubmit={() => {}}>
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
           <input
             type="text"
             onChange={(e) => handleChange(e)}
