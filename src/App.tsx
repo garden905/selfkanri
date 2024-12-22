@@ -10,11 +10,13 @@ function App() {
     checked: boolean;
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const newTodo: Todo = {
       inputValue: inputValue,
       id: todos.length,
@@ -28,11 +30,7 @@ function App() {
     <div className="App">
       <div>
         <h2>Todoリスト</h2>
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
+        <form onSubmit={(e) => handleSubmit(e)}>
           <input
             type="text"
             onChange={(e) => handleChange(e)}
@@ -40,6 +38,11 @@ function App() {
           />
           <input type="submit" value="作成" className="submitButton" />
         </form>
+        <ul className="todoList">
+          {todos.map((todo) => (
+            <li key={todo.id}>{todo.inputValue}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
