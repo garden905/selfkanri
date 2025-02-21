@@ -1,14 +1,29 @@
 import "./App.css";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [time, setTime] = useState(60);
 
   type Todo = {
     inputValue: string;
     id: number;
     checked: boolean;
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+          clearInterval(timer);
+          return 0;
+        }
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
     setInputValue(e.target.value);
@@ -45,9 +60,19 @@ function App() {
     });
     setTodos(newTodos);
   };
+  const handleReset = () => {
+    setTime(60);
+    setTodos([]);
+    setInputValue("");
+  };
+
   return (
     <div className="App">
       <div>
+        <h1>タイマー: {time}秒</h1>
+        <button onClick={handleReset} className="resetButton">
+          リセット
+        </button>
         <h2>Todoリスト</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
@@ -57,6 +82,7 @@ function App() {
           />
           <input type="submit" value="作成" className="submitButton" />
         </form>
+
         <ul className="todoList">
           {todos.map((todo) => (
             <li key={todo.id}>
