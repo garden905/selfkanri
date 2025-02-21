@@ -9,15 +9,20 @@ text-align:center;
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  background-color: lightskyblue
 }
 
 .inputText {
   padding: 10px;
+  background-color:rgb(179, 226, 255);
+  border: 2px solid rgb(22, 109, 163); /* 縁を追加 */
 }
 
 .submitButton {
   padding: 8px 15px;
   cursor: pointer;
+  background-color:rgb(34, 165, 247);
+  border: 2px solid rgb(22, 109, 163); /* 縁を追加 */
 }
 
 .todoList li {
@@ -29,4 +34,9 @@ text-align:center;
 
 .todoList li input {
   padding: 7px;
+}
+
+.resetButton{
+  background-color:rgb(34, 165, 247);
+  border: 2px solid rgb(22, 109, 163); /* 縁を追加 */
 }
