@@ -62,10 +62,6 @@ function App() {
     setTodos(newTodos);
   };
 
-  const handleDelete = (id: number) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
-  };
   const handleReset = () => {
     setTime(60);
     setTodos([]);
@@ -103,7 +99,6 @@ function App() {
                 type="checkbox"
                 onChange={() => handleChecked(todo.id, todo.checked)}
               />
-              <button onClick={() => handleDelete(todo.id)}>消</button>
             </li>
           ))}
         </ul>
