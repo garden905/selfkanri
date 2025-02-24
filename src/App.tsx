@@ -5,7 +5,7 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [time, setTime] = useState(60);
-
+  const [isRotating, setIsRotating] = useState(false);
   type Todo = {
     inputValue: string;
     id: number;
@@ -67,7 +67,9 @@ function App() {
     setTodos([]);
     setInputValue("");
   };
-
+  const handleImageClick = () => {
+    setIsRotating(!isRotating);
+  };
   return (
     <div className="App">
       <div>
@@ -105,13 +107,15 @@ function App() {
       </div>
       <img
         src="src/assets/lace.png"
-        className="top-left"
+        className={`top-left ${isRotating ? "left-rotate" : ""}`}
         alt="Top Left Image"
+        onClick={handleImageClick}
       />
       <img
         src="src/assets/lace.png"
-        className="bottom-right"
+        className={`bottom-right ${isRotating ? "right-rotate" : ""}`}
         alt="Bottom Right Image"
+        onClick={handleImageClick}
       />
     </div>
   );

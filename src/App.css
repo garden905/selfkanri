@@ -54,3 +54,31 @@ text-align:center;
   right: 0;
   transform: translate(50%, 50%);
 }
+
+@keyframes left-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.left-rotate {
+  animation: left-rotate 5s linear infinite;
+  transform-origin: center; /* 画像の中心を回転の基点に設定 */
+}
+
+@keyframes right-rotate {
+  from {
+    transform: translate(50%, 50%) rotate(0deg);
+  }
+  to {
+    transform: translate(50%, 50%) rotate(360deg);
+  }
+}
+
+.right-rotate {
+  animation: right-rotate 5s linear infinite;
+  transform-origin: center; /* 画像の中心を回転の基点に設定 */
+}
