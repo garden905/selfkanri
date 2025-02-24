@@ -87,3 +87,25 @@ text-align:center;
   animation: right-rotate 5s linear infinite;
   transform-origin: center; /* 画像の中心を回転の基点に設定 */
 }
+
+.sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, rgb(252, 255, 77), rgba(255, 255, 255, 0));
+  border-radius: 100%;
+  pointer-events: none;
+  animation: sparkle 0.3s linear, move 0.6s linear;
+  
+}
+
+
+
+@keyframes move {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--move-x), var(--move-y));
+  }
+}

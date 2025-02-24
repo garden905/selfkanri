@@ -70,6 +70,45 @@ function App() {
   const handleImageClick = () => {
     setIsRotating(!isRotating);
   };
+
+  const createSparkle = (
+    x: number,
+    y: number,
+    moveX: number,
+    moveY: number
+  ) => {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("sparkle");
+    sparkle.style.left = `${x}px`;
+    sparkle.style.top = `${y}px`;
+    sparkle.style.setProperty("--move-x", `${moveX}px`);
+    sparkle.style.setProperty("--move-y", `${moveY}px`);
+    document.body.appendChild(sparkle);
+
+    // アニメーション終了時に要素を削除
+    sparkle.addEventListener("animationend", () => {
+      sparkle.remove();
+    });
+  };
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      for (let i = 0; i < 6; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 50;
+        const offsetX = Math.cos(angle) * distance;
+        const offsetY = Math.sin(angle) * distance;
+        createSparkle(e.clientX, e.clientY, offsetX, offsetY);
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <div className="App">
       <div>
