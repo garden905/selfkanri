@@ -101,6 +101,16 @@ function App() {
           ))}
         </ul>
       </div>
+      <img
+        src="src/assets/lace.png"
+        className="top-left"
+        alt="Top Left Image"
+      />
+      <img
+        src="src/assets/lace.png"
+        className="bottom-right"
+        alt="Bottom Right Image"
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ text-align:center;
   background-color: lightskyblue
 }
 
+
 .inputText {
   padding: 10px;
   background-color:rgb(179, 226, 255);
@@ -39,4 +40,17 @@ text-align:center;
 .resetButton{
   background-color:rgb(34, 165, 247);
   border: 2px solid rgb(22, 109, 163); /* 縁を追加 */
+}
+
+.top-left{
+  position:absolute;
+  top:0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+.bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
 }
