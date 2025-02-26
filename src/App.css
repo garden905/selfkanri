@@ -70,7 +70,7 @@ text-align:center;
 }
 
 .left-rotate {
-  animation: left-rotate 5s linear infinite;
+  animation: left-rotate 10s linear infinite;
   transform-origin: center; /* 画像の中心を回転の基点に設定 */
 }
 
@@ -84,7 +84,7 @@ text-align:center;
 }
 
 .right-rotate {
-  animation: right-rotate 5s linear infinite;
+  animation: right-rotate 10s linear infinite;
   transform-origin: center; /* 画像の中心を回転の基点に設定 */
 }
 
