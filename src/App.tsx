@@ -4,7 +4,9 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState<string>("00:00");
+  const [seconds, setSeconds] = useState<number>(0);
+  const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
   type Todo = {
     inputValue: string;
@@ -13,18 +15,29 @@ function App() {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTime((prevTime) => {
-        if (prevTime > 0) {
-          return prevTime - 1;
-        } else {
-          clearInterval(timer);
-          return 0;
-        }
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    let interval: ReturnType<typeof setInterval> | null = null;
+    if (isActive && seconds > 0) {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setIsActive(false);
+      if (interval) clearInterval(interval);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isActive, seconds]);
+
+  const handleStart = () => {
+    const [minutes, secs] = time.split(":").map(Number);
+    setSeconds(minutes * 60 + secs);
+    setIsActive(true);
+  };
+  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTime(e.target.value);
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.value);
     setInputValue(e.target.value);
@@ -62,11 +75,6 @@ function App() {
     setTodos(newTodos);
   };
 
-  const handleReset = () => {
-    setTime(60);
-    setTodos([]);
-    setInputValue("");
-  };
   const handleImageClick = () => {
     setIsRotating(!isRotating);
   };
@@ -112,10 +120,23 @@ function App() {
   return (
     <div className="App">
       <div>
-        <h1>タイマー: {time}秒</h1>
-        <button onClick={handleReset} className="resetButton">
-          リセット
-        </button>
+        <input
+          type="text"
+          value={time}
+          onChange={handleTimeChange}
+          placeholder="MM:SS"
+        />
+        <button onClick={handleStart}>Start Timer</button>
+        <div>
+          {`${Math.floor(seconds / 60)
+            .toString()
+            .padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`}
+        </div>
+        <ul>
+          {todos.map((todo) => (
+            <li key={todo.id}>{todo.inputValue}</li>
+          ))}
+        </ul>
         <h2>Todoリスト</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
