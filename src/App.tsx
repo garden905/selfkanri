@@ -135,20 +135,22 @@ function App() {
     <div className="App">
       <div>
         <div>
-          <div>
+          <div className="timer-controls">
             <button onClick={incrementMinutes}>▲</button>
             <button onClick={incrementSeconds}>▲</button>
           </div>
-          <div>
-            <span>{String(minutes).padStart(2, "0")}</span>
+          <div className="timer-display">
+            <span>{String(minutes).padStart(2, "0")}</span>:
             <span>{String(seconds).padStart(2, "0")}</span>
           </div>
-          <div>
-            <button onClick={decrementSeconds}>▼</button>
+          <div className="timer-controls">
             <button onClick={decrementMinutes}>▼</button>
+            <button onClick={decrementSeconds}>▼</button>
           </div>
         </div>
-        <button onClick={handleStart}>Start Timer</button>
+        <button className="start-button" onClick={handleStart}>
+          Start Timer
+        </button>
         <div>
           {`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
             2,

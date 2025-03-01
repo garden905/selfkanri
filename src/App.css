@@ -109,3 +109,47 @@ text-align:center;
     transform: translate(var(--move-x), var(--move-y));
   }
 }
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.timer-controls button {
+  padding: 10px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.timer-controls button:hover {
+  background-color: #1558b0;
+}
+
+.timer-display {
+  font-size: 4em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.start-button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #34a853;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #2c8c43;
+}
