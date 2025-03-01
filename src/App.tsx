@@ -16,21 +16,27 @@ function App() {
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
-    if (isActive && seconds > 0) {
+    if (isActive) {
       interval = setInterval(() => {
-        setSeconds((seconds) => seconds - 1);
+        setSeconds((prevSeconds) => {
+          if (prevSeconds === 0) {
+            if (minutes === 0) {
+              setIsActive(false);
+              return 0;
+            } else {
+              setMinutes((prevMinutes) => prevMinutes - 1);
+              return 59;
+            }
+          } else {
+            return prevSeconds - 1;
+          }
+        });
       }, 1000);
-    } else if (seconds === 0 && minutes > 0) {
-      setMinutes((minutes) => minutes - 1);
-      setSeconds(59);
-    } else if (seconds === 0 && minutes === 0) {
-      setIsActive(false);
-      if (interval) clearInterval(interval);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, seconds, minutes]);
+  }, [isActive, minutes]);
 
   const handleStart = () => {
     setIsActive(true);
@@ -45,11 +51,21 @@ function App() {
   };
 
   const incrementSeconds = () => {
-    if (seconds < 59) setSeconds(seconds + 1);
+    if (seconds < 59) {
+      setSeconds(seconds + 1);
+    } else {
+      setSeconds(0);
+      setMinutes(minutes + 1);
+    }
   };
 
   const decrementSeconds = () => {
-    if (seconds > 0) setSeconds(seconds - 1);
+    if (seconds > 0) {
+      setSeconds(seconds - 1);
+    } else if (minutes > 0) {
+      setSeconds(59);
+      setMinutes(minutes - 1);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
