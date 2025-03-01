@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [time, setTime] = useState<string>("00:00");
+  const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
@@ -20,22 +20,36 @@ function App() {
       interval = setInterval(() => {
         setSeconds((seconds) => seconds - 1);
       }, 1000);
-    } else if (seconds === 0) {
+    } else if (seconds === 0 && minutes > 0) {
+      setMinutes((minutes) => minutes - 1);
+      setSeconds(59);
+    } else if (seconds === 0 && minutes === 0) {
       setIsActive(false);
       if (interval) clearInterval(interval);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, seconds]);
+  }, [isActive, seconds, minutes]);
 
   const handleStart = () => {
-    const [minutes, secs] = time.split(":").map(Number);
-    setSeconds(minutes * 60 + secs);
     setIsActive(true);
   };
-  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTime(e.target.value);
+
+  const incrementMinutes = () => {
+    setMinutes(minutes + 1);
+  };
+
+  const decrementMinutes = () => {
+    if (minutes > 0) setMinutes(minutes - 1);
+  };
+
+  const incrementSeconds = () => {
+    if (seconds < 59) setSeconds(seconds + 1);
+  };
+
+  const decrementSeconds = () => {
+    if (seconds > 0) setSeconds(seconds - 1);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -120,17 +134,26 @@ function App() {
   return (
     <div className="App">
       <div>
-        <input
-          type="text"
-          value={time}
-          onChange={handleTimeChange}
-          placeholder="MM:SS"
-        />
+        <div>
+          <div>
+            <button onClick={incrementMinutes}>▲</button>
+            <button onClick={incrementSeconds}>▲</button>
+          </div>
+          <div>
+            <span>{String(minutes).padStart(2, "0")}</span>
+            <span>{String(seconds).padStart(2, "0")}</span>
+          </div>
+          <div>
+            <button onClick={decrementSeconds}>▼</button>
+            <button onClick={decrementMinutes}>▼</button>
+          </div>
+        </div>
         <button onClick={handleStart}>Start Timer</button>
         <div>
-          {`${Math.floor(seconds / 60)
-            .toString()
-            .padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}`}
+          {`${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+            2,
+            "0"
+          )}`}
         </div>
         <ul>
           {todos.map((todo) => (
