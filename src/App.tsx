@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -21,8 +22,14 @@ function App() {
         setSeconds((prevSeconds) => {
           if (prevSeconds === 0) {
             if (minutes === 0) {
-              setIsActive(false);
-              return 0;
+              if (hours === 0) {
+                setIsActive(false);
+                return 0;
+              } else {
+                setHours((prevHours) => prevHours - 1);
+                setMinutes(59);
+                return 59;
+              }
             } else {
               setMinutes((prevMinutes) => prevMinutes - 1);
               return 59;
@@ -36,18 +43,36 @@ function App() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, minutes]);
+  }, [isActive, hours, minutes]);
 
   const handleStart = () => {
     setIsActive(true);
   };
 
+  const incrementHours = () => {
+    setHours(hours + 1);
+  };
+
+  const decrementHours = () => {
+    if (hours > 0) setHours(hours - 1);
+  };
+
   const incrementMinutes = () => {
-    setMinutes(minutes + 1);
+    if (minutes < 59) {
+      setMinutes(minutes + 1);
+    } else {
+      setMinutes(0);
+      setHours(hours + 1);
+    }
   };
 
   const decrementMinutes = () => {
-    if (minutes > 0) setMinutes(minutes - 1);
+    if (minutes > 0) {
+      setMinutes(minutes - 1);
+    } else if (hours > 0) {
+      setMinutes(59);
+      setHours(hours - 1);
+    }
   };
 
   const incrementSeconds = () => {
@@ -55,16 +80,16 @@ function App() {
       setSeconds(seconds + 1);
     } else {
       setSeconds(0);
-      setMinutes(minutes + 1);
+      incrementMinutes();
     }
   };
 
   const decrementSeconds = () => {
     if (seconds > 0) {
       setSeconds(seconds - 1);
-    } else if (minutes > 0) {
+    } else if (minutes > 0 || hours > 0) {
       setSeconds(59);
-      setMinutes(minutes - 1);
+      decrementMinutes();
     }
   };
 
@@ -152,14 +177,17 @@ function App() {
       <div>
         <div>
           <div className="timer-controls">
+            <button onClick={incrementHours}>▲</button>
             <button onClick={incrementMinutes}>▲</button>
             <button onClick={incrementSeconds}>▲</button>
           </div>
           <div className="timer-display">
+            <span>{String(hours).padStart(2, "0")}</span>:
             <span>{String(minutes).padStart(2, "0")}</span>:
             <span>{String(seconds).padStart(2, "0")}</span>
           </div>
           <div className="timer-controls">
+            <button onClick={decrementHours}>▼</button>
             <button onClick={decrementMinutes}>▼</button>
             <button onClick={decrementSeconds}>▼</button>
           </div>
