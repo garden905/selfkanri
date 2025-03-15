@@ -150,6 +150,17 @@ text-align:center;
   transition: background-color 0.3s;
 }
 
+.stop-button{
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #ea4335;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
 .start-button:hover {
   background-color: #2c8c43;
 }

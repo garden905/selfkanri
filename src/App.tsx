@@ -9,6 +9,7 @@ function App() {
   const [seconds, setSeconds] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
+
   type Todo = {
     inputValue: string;
     id: number;
@@ -47,6 +48,9 @@ function App() {
 
   const handleStart = () => {
     setIsActive(true);
+  };
+  const handleStop = () => {
+    setIsActive(false);
   };
 
   const incrementHours = () => {
@@ -194,6 +198,9 @@ function App() {
         </div>
         <button className="start-button" onClick={handleStart}>
           Start Timer
+        </button>
+        <button className="stop-button" onClick={handleStop}>
+          Stop
         </button>
 
         <ul>
