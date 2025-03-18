@@ -203,11 +203,6 @@ function App() {
           Stop
         </button>
 
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>{todo.inputValue}</li>
-          ))}
-        </ul>
         <h2>Todoリスト</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
