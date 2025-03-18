@@ -180,28 +180,37 @@ function App() {
     <div className="App">
       <div>
         <div>
-          <div className="timer-controls">
-            <button onClick={incrementHours}>▲</button>
-            <button onClick={incrementMinutes}>▲</button>
-            <button onClick={incrementSeconds}>▲</button>
-          </div>
+          {!isActive && (
+            <div className="timer-controls">
+              <button onClick={incrementHours}>▲</button>
+              <button onClick={incrementMinutes}>▲</button>
+              <button onClick={incrementSeconds}>▲</button>
+            </div>
+          )}
+
           <div className="timer-display">
             <span>{String(hours).padStart(2, "0")}</span>:
             <span>{String(minutes).padStart(2, "0")}</span>:
             <span>{String(seconds).padStart(2, "0")}</span>
           </div>
-          <div className="timer-controls">
-            <button onClick={decrementHours}>▼</button>
-            <button onClick={decrementMinutes}>▼</button>
-            <button onClick={decrementSeconds}>▼</button>
-          </div>
+          {!isActive && (
+            <div className="timer-controls">
+              <button onClick={decrementHours}>▼</button>
+              <button onClick={decrementMinutes}>▼</button>
+              <button onClick={decrementSeconds}>▼</button>
+            </div>
+          )}
         </div>
-        <button className="start-button" onClick={handleStart}>
-          Start Timer
-        </button>
-        <button className="stop-button" onClick={handleStop}>
-          Stop
-        </button>
+        {!isActive && (
+          <button className="start-button" onClick={handleStart}>
+            Start Timer
+          </button>
+        )}
+        {isActive && (
+          <button className="stop-button" onClick={handleStop}>
+            Stop
+          </button>
+        )}
 
         <h2>Todoリスト</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
