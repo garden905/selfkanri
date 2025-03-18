@@ -218,9 +218,9 @@ function App() {
           <input type="submit" value="作成" className="submitButton" />
         </form>
 
-        <ul className="todoList">
+        <div className="todo-list">
           {todos.map((todo) => (
-            <li key={todo.id}>
+            <div key={todo.id} className="todo-item">
               <input
                 type="text"
                 onChange={(e) => handleEdit(todo.id, e.target.value)}
@@ -232,9 +232,9 @@ function App() {
                 type="checkbox"
                 onChange={() => handleChecked(todo.id, todo.checked)}
               />
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
       <img
         src="src/assets/lace.png"

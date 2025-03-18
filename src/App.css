@@ -41,7 +41,16 @@ text-align:center;
 .todoList li input {
   padding: 7px;
 }
+.todo-list {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.todo-item {
+  flex: 1 1 calc(33.333% - 10px); /* 3つ並べるために幅を調整 */
+  margin: 5px; /* アイテム間のスペース */
+  box-sizing: border-box; /* パディングとボーダーを含めたサイズ計算 */
+}
 .resetButton{
   background-color:rgb(34, 165, 247);
   border: 2px solid rgb(22, 109, 163); /* 縁を追加 */
