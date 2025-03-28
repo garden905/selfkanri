@@ -225,6 +225,7 @@ function App() {
         <form onSubmit={(e) => handleSubmit(e)}>
           <input
             type="text"
+            value={inputValue} // 状態と同期
             onChange={(e) => handleChange(e)}
             className="inputText"
           />
