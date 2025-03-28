@@ -9,6 +9,7 @@ function App() {
   const [seconds, setSeconds] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
+  const [selectedTodoText, setSelectedTodoText] = useState<string>("");
 
   type Todo = {
     inputValue: string;
@@ -138,6 +139,10 @@ function App() {
     setIsRotating(!isRotating);
   };
 
+  const handleTodoClick = (text: string) => {
+    setSelectedTodoText(text);
+  };
+
   const createSparkle = (
     x: number,
     y: number,
@@ -178,6 +183,10 @@ function App() {
 
   return (
     <div className="App">
+      {/* タイマーの上に選択されたTodoを表示 */}
+      <div className="selected-todo">
+        {selectedTodoText && <h2>選択中のTodo: {selectedTodoText}</h2>}
+      </div>
       <div>
         <div>
           {!isActive && (
@@ -224,7 +233,11 @@ function App() {
 
         <div className="todo-list">
           {todos.map((todo) => (
-            <div key={todo.id} className="todo-item">
+            <div
+              key={todo.id}
+              className="todo-item"
+              onClick={() => handleTodoClick(todo.inputValue)} // タップ時に選択
+            >
               <input
                 type="text"
                 onChange={(e) => handleEdit(todo.id, e.target.value)}
@@ -234,6 +247,7 @@ function App() {
               />
               <input
                 type="checkbox"
+                checked={todo.checked}
                 onChange={() => handleChecked(todo.id, todo.checked)}
               />
             </div>
