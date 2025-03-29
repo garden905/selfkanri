@@ -184,89 +184,91 @@ function App() {
   return (
     <div className="App">
       {/* タイマーの上に選択されたTodoを表示 */}
-      <div className="selected-todo">
-        {selectedTodoText && <h2>選択中のTodo: {selectedTodoText}</h2>}
-      </div>
-      <div>
-        <div>
-          {!isActive && (
-            <div className="timer-controls">
-              <button onClick={incrementHours}>▲</button>
-              <button onClick={incrementMinutes}>▲</button>
-              <button onClick={incrementSeconds}>▲</button>
-            </div>
-          )}
 
-          <div className="timer-display">
-            <span>{String(hours).padStart(2, "0")}</span>:
-            <span>{String(minutes).padStart(2, "0")}</span>:
-            <span>{String(seconds).padStart(2, "0")}</span>
+      <div className="selected-todo">
+        {selectedTodoText && <h1> {selectedTodoText}</h1>}
+
+        <div>
+          <div>
+            {!isActive && (
+              <div className="timer-controls">
+                <button onClick={incrementHours}>▲</button>
+                <button onClick={incrementMinutes}>▲</button>
+                <button onClick={incrementSeconds}>▲</button>
+              </div>
+            )}
+
+            <div className="timer-display">
+              <span>{String(hours).padStart(2, "0")}</span>:
+              <span>{String(minutes).padStart(2, "0")}</span>:
+              <span>{String(seconds).padStart(2, "0")}</span>
+            </div>
+            {!isActive && (
+              <div className="timer-controls">
+                <button onClick={decrementHours}>▼</button>
+                <button onClick={decrementMinutes}>▼</button>
+                <button onClick={decrementSeconds}>▼</button>
+              </div>
+            )}
           </div>
           {!isActive && (
-            <div className="timer-controls">
-              <button onClick={decrementHours}>▼</button>
-              <button onClick={decrementMinutes}>▼</button>
-              <button onClick={decrementSeconds}>▼</button>
-            </div>
+            <button className="start-button" onClick={handleStart}>
+              Start Timer
+            </button>
           )}
-        </div>
-        {!isActive && (
-          <button className="start-button" onClick={handleStart}>
-            Start Timer
-          </button>
-        )}
-        {isActive && (
-          <button className="stop-button" onClick={handleStop}>
-            Stop
-          </button>
-        )}
+          {isActive && (
+            <button className="stop-button" onClick={handleStop}>
+              Stop
+            </button>
+          )}
 
-        <h2>Todoリスト</h2>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <input
-            type="text"
-            value={inputValue} // 状態と同期
-            onChange={(e) => handleChange(e)}
-            className="inputText"
-          />
-          <input type="submit" value="作成" className="submitButton" />
-        </form>
+          <h2>Todoリスト</h2>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <input
+              type="text"
+              value={inputValue} // 状態と同期
+              onChange={(e) => handleChange(e)}
+              className="inputText"
+            />
+            <input type="submit" value="作成" className="submitButton" />
+          </form>
 
-        <div className="todo-list">
-          {todos.map((todo) => (
-            <div
-              key={todo.id}
-              className="todo-item"
-              onClick={() => handleTodoClick(todo.inputValue)} // タップ時に選択
-            >
-              <input
-                type="text"
-                onChange={(e) => handleEdit(todo.id, e.target.value)}
-                className="inputText"
-                value={todo.inputValue}
-                disabled={todo.checked}
-              />
-              <input
-                type="checkbox"
-                checked={todo.checked}
-                onChange={() => handleChecked(todo.id, todo.checked)}
-              />
-            </div>
-          ))}
+          <div className="todo-list">
+            {todos.map((todo) => (
+              <div
+                key={todo.id}
+                className="todo-item"
+                onClick={() => handleTodoClick(todo.inputValue)} // タップ時に選択
+              >
+                <input
+                  type="text"
+                  onChange={(e) => handleEdit(todo.id, e.target.value)}
+                  className="inputText"
+                  value={todo.inputValue}
+                  disabled={todo.checked}
+                />
+                <input
+                  type="checkbox"
+                  checked={todo.checked}
+                  onChange={() => handleChecked(todo.id, todo.checked)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
+        <img
+          src="src/assets/lace.png"
+          className={`top-left ${isRotating ? "left-rotate" : ""}`}
+          alt="Top Left Image"
+          onClick={handleImageClick}
+        />
+        <img
+          src="src/assets/lace.png"
+          className={`bottom-right ${isRotating ? "right-rotate" : ""}`}
+          alt="Bottom Right Image"
+          onClick={handleImageClick}
+        />
       </div>
-      <img
-        src="src/assets/lace.png"
-        className={`top-left ${isRotating ? "left-rotate" : ""}`}
-        alt="Top Left Image"
-        onClick={handleImageClick}
-      />
-      <img
-        src="src/assets/lace.png"
-        className={`bottom-right ${isRotating ? "right-rotate" : ""}`}
-        alt="Bottom Right Image"
-        onClick={handleImageClick}
-      />
     </div>
   );
 }
