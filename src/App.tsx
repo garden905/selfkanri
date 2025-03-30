@@ -23,8 +23,8 @@ function App() {
     if (isActive) {
       interval = setInterval(() => {
         setTotalSeconds((prevSeconds) => {
-          if (prevSeconds > 0) {
-            return prevSeconds - 1;
+          if ((prevSeconds ?? 0) > 0) {
+            return (prevSeconds ?? 0) - 1;
           } else {
             setIsActive(false);
             return 0;
@@ -48,30 +48,31 @@ function App() {
   };
 
   const incrementHours = () => {
-    setTotalSeconds(totalSeconds + 3600);
+    setTotalSeconds((totalSeconds ?? 0) + 3600);
   };
 
   const decrementHours = () => {
-    if (totalSeconds >= 3600) setTotalSeconds(totalSeconds - 3600);
+    if ((totalSeconds ?? 0) >= 3600)
+      setTotalSeconds((totalSeconds ?? 0) - 3600);
   };
 
   const incrementMinutes = () => {
-    setTotalSeconds(totalSeconds + 60);
+    setTotalSeconds((totalSeconds ?? 0) + 60);
   };
 
   const decrementMinutes = () => {
-    if (totalSeconds >= 60) {
-      setTotalSeconds(totalSeconds - 60);
+    if ((totalSeconds ?? 0) >= 60) {
+      setTotalSeconds((totalSeconds ?? 0) - 60);
     }
   };
 
   const incrementSeconds = () => {
-    setTotalSeconds(totalSeconds + 1);
+    setTotalSeconds((totalSeconds ?? 0) + 1);
   };
 
   const decrementSeconds = () => {
-    if (totalSeconds > 0) {
-      setTotalSeconds(totalSeconds - 1);
+    if ((totalSeconds ?? 0) > 0) {
+      setTotalSeconds((totalSeconds ?? 0) - 1);
     }
   };
 
@@ -171,9 +172,9 @@ function App() {
       </div>
     );
   }
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const hours = Math.floor((totalSeconds ?? 0) / 3600);
+  const minutes = Math.floor(((totalSeconds ?? 0) % 3600) / 60);
+  const seconds = (totalSeconds ?? 0) % 60;
 
   return (
     <div className="App">
