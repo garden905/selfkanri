@@ -1,12 +1,10 @@
 import "./App.css";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
-
+import { useLocalStorage } from "@reactuses/core";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [seconds, setSeconds] = useState<number>(0);
+  const [totalSeconds, setTotalSeconds] = useState<number>(0);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
   const [selectedTodoText, setSelectedTodoText] = useState<string>("");
@@ -21,31 +19,23 @@ function App() {
     let interval: ReturnType<typeof setInterval> | null = null;
     if (isActive) {
       interval = setInterval(() => {
-        setSeconds((prevSeconds) => {
-          if (prevSeconds === 0) {
-            if (minutes === 0) {
-              if (hours === 0) {
-                setIsActive(false);
-                return 0;
-              } else {
-                setHours((prevHours) => prevHours - 1);
-                setMinutes(59);
-                return 59;
-              }
-            } else {
-              setMinutes((prevMinutes) => prevMinutes - 1);
-              return 59;
-            }
-          } else {
+        setTotalSeconds((prevSeconds) => {
+          if (prevSeconds > 0) {
             return prevSeconds - 1;
+          } else {
+            setIsActive(false);
+            return 0;
           }
         });
       }, 1000);
+    } else if (!isActive && interval) {
+      clearInterval(interval);
     }
+
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, hours, minutes]);
+  }, [isActive]);
 
   const handleStart = () => {
     setIsActive(true);
@@ -55,46 +45,30 @@ function App() {
   };
 
   const incrementHours = () => {
-    setHours(hours + 1);
+    setTotalSeconds(totalSeconds + 3600);
   };
 
   const decrementHours = () => {
-    if (hours > 0) setHours(hours - 1);
+    if (totalSeconds >= 3600) setTotalSeconds(totalSeconds - 3600);
   };
 
   const incrementMinutes = () => {
-    if (minutes < 59) {
-      setMinutes(minutes + 1);
-    } else {
-      setMinutes(0);
-      setHours(hours + 1);
-    }
+    setTotalSeconds(totalSeconds + 60);
   };
 
   const decrementMinutes = () => {
-    if (minutes > 0) {
-      setMinutes(minutes - 1);
-    } else if (hours > 0) {
-      setMinutes(59);
-      setHours(hours - 1);
+    if (totalSeconds >= 60) {
+      setTotalSeconds(totalSeconds - 60);
     }
   };
 
   const incrementSeconds = () => {
-    if (seconds < 59) {
-      setSeconds(seconds + 1);
-    } else {
-      setSeconds(0);
-      incrementMinutes();
-    }
+    setTotalSeconds(totalSeconds + 1);
   };
 
   const decrementSeconds = () => {
-    if (seconds > 0) {
-      setSeconds(seconds - 1);
-    } else if (minutes > 0 || hours > 0) {
-      setSeconds(59);
-      decrementMinutes();
+    if (totalSeconds > 0) {
+      setTotalSeconds(totalSeconds - 1);
     }
   };
 
@@ -181,10 +155,27 @@ function App() {
     };
   }, []);
 
+  function Demo() {
+    // bind string
+    const [value, setValue] = useLocalStorage("my-key", "key");
+    return (
+      <div>
+        <div>Value: {value}</div>
+        <button onClick={() => setValue("bar")}>bar</button>
+        <button onClick={() => setValue("baz")}>baz</button>
+        {/* delete data from storage */}
+        <button onClick={() => setValue(null)}>Remove</button>
+      </div>
+    );
+  }
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
   return (
     <div className="App">
       {/* タイマーの上に選択されたTodoを表示 */}
-
+      <Demo />
       <div className="selected-todo">
         {selectedTodoText && <h1> {selectedTodoText}</h1>}
 
