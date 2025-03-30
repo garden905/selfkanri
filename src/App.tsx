@@ -4,7 +4,10 @@ import { useLocalStorage } from "@reactuses/core";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [totalSeconds, setTotalSeconds] = useState<number>(0);
+  const [totalSeconds, setTotalSeconds] = useLocalStorage<number>(
+    "totalSeconds",
+    0
+  ); // useLocalStorageを使用
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isRotating, setIsRotating] = useState(false);
   const [selectedTodoText, setSelectedTodoText] = useState<string>("");
