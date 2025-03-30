@@ -159,19 +159,6 @@ function App() {
     };
   }, []);
 
-  function Demo() {
-    // bind string
-    const [value, setValue] = useLocalStorage("my-key", "key");
-    return (
-      <div>
-        <div>Value: {value}</div>
-        <button onClick={() => setValue("bar")}>bar</button>
-        <button onClick={() => setValue("baz")}>baz</button>
-        {/* delete data from storage */}
-        <button onClick={() => setValue(null)}>Remove</button>
-      </div>
-    );
-  }
   const hours = Math.floor((totalSeconds ?? 0) / 3600);
   const minutes = Math.floor(((totalSeconds ?? 0) % 3600) / 60);
   const seconds = (totalSeconds ?? 0) % 60;
@@ -179,7 +166,7 @@ function App() {
   return (
     <div className="App">
       {/* タイマーの上に選択されたTodoを表示 */}
-      <Demo />
+
       <div className="selected-todo">
         {selectedTodoText && <h1> {selectedTodoText}</h1>}
 
