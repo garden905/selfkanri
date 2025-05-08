@@ -117,6 +117,12 @@ function App() {
     setIsRotating(!isRotating);
   };
 
+  // 音声再生関数
+  const playSound = () => {
+    const audio = new Audio("Sounds/4fa.mp3"); // 音声ファイルのパスを指定
+    audio.play();
+  };
+
   const handleTodoClick = (text: string) => {
     setSelectedTodoText(text);
   };
