@@ -16,7 +16,16 @@ function App() {
     inputValue: string;
     id: number;
     checked: boolean;
+    title: string;
+    totalplaytime: number;
   };
+
+  const [contextMenu, setContextMenu] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    item: Todo | null;
+  }>({ visible: false, x: 0, y: 0, item: null });
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -88,6 +97,8 @@ function App() {
       inputValue: inputValue,
       id: todos.length,
       checked: false,
+      title: inputValue,
+      totalplaytime: 0,
     };
     setTodos([newTodo, ...todos]);
     setInputValue("");
@@ -117,11 +128,20 @@ function App() {
     setIsRotating(!isRotating);
   };
 
-  // 音声再生関数
-  const playSound = () => {
-    const audio = new Audio("Sounds/4fa.mp3"); // 音声ファイルのパスを指定
-    audio.play();
+  const handleRightClick = (event: React.MouseEvent, item: Todo) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.clientX,
+      y: event.clientY,
+      item,
+    });
   };
+  // // 音声再生関数
+  // const playSound = () => {
+  //   const audio = new Audio("Sounds/4fa.mp3"); // 音声ファイルのパスを指定
+  //   audio.play();
+  // };
 
   const handleTodoClick = (text: string) => {
     setSelectedTodoText(text);
@@ -227,6 +247,7 @@ function App() {
                 key={todo.id}
                 className="todo-item"
                 onClick={() => handleTodoClick(todo.inputValue)} // タップ時に選択
+                onContextMenu={(e) => handleRightClick(e, todo)} // 右クリックイベント
               >
                 <input
                   type="text"
@@ -243,6 +264,26 @@ function App() {
               </div>
             ))}
           </div>
+          {contextMenu.visible && contextMenu.item && (
+            <div
+              style={{
+                position: "absolute",
+                top: contextMenu.y,
+                left: contextMenu.x,
+                backgroundColor: "white",
+                border: "1px solid #ccc",
+                padding: "10px",
+                zIndex: 1000,
+              }}
+            >
+              <p>
+                <strong>タイトル:</strong> {contextMenu.item.title}
+              </p>
+              <p>
+                <strong>プレイ時間:</strong> {contextMenu.item.totalplaytime}
+              </p>
+            </div>
+          )}
         </div>
         <img
           src="src/assets/lace.png"
