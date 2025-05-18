@@ -3,7 +3,11 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useLocalStorage } from "@reactuses/core";
 const App = () => {
   const [inputValue, setInputValue] = useState("");
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    // 初期化時にlocalStorageからデータを取得
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  });
   const [totalSeconds, setTotalSeconds] = useLocalStorage<number>(
     "totalSeconds",
     0
@@ -26,6 +30,11 @@ const App = () => {
     y: number;
     item: Todo | null;
   }>({ visible: false, x: 0, y: 0, item: null });
+
+  useEffect(() => {
+    // todosが変更されるたびにlocalStorageに保存
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
