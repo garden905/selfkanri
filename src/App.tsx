@@ -1,7 +1,7 @@
 import "./App.css";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useLocalStorage } from "@reactuses/core";
-function App() {
+const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
   const [totalSeconds, setTotalSeconds] = useLocalStorage<number>(
@@ -312,6 +312,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
