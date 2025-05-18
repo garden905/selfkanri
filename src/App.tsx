@@ -47,7 +47,7 @@ function App() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive]);
+  }, [isActive, setTotalSeconds]);
 
   const handleStart = () => {
     setIsActive(true);
