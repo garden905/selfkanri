@@ -33,7 +33,19 @@ function App() {
       interval = setInterval(() => {
         setTotalSeconds((prevSeconds) => {
           if ((prevSeconds ?? 0) > 0) {
-            return (prevSeconds ?? 0) - 1;
+            // タイマーを1秒減らす
+            const newSeconds = (prevSeconds ?? 0) - 1;
+
+            // 選択されたTodoのtotalplaytimeを増やす
+            setTodos((prevTodos) =>
+              prevTodos.map((todo) =>
+                todo.title === selectedTodoText
+                  ? { ...todo, totalplaytime: todo.totalplaytime + 1 }
+                  : todo
+              )
+            );
+
+            return newSeconds;
           } else {
             setIsActive(false);
             return 0;
@@ -47,7 +59,7 @@ function App() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, setTotalSeconds]);
+  }, [isActive, selectedTodoText, setTotalSeconds]);
 
   const handleStart = () => {
     setIsActive(true);
